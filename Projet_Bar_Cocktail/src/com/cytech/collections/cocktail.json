@@ -1,0 +1,22 @@
+{
+  "Mojito": {
+    "nom": "Mojito",
+    "prix": 102.0,
+    "degreAlcool": 40.0,
+    "degreSucre": 2.0,
+    "ListeBoissonSimple": [
+      {
+        "nom": "Vodka",
+        "prix": 10.0,
+        "degreAlcool": 40.0,
+        "degreSucre": 2.0
+      }
+    ],
+    "ListeIngredientBonus": [
+      {
+        "nom": "Citron",
+        "prix": 1
+      }
+    ]
+  }
+}

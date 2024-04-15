@@ -1,0 +1,23 @@
+{
+  "Vodka": {
+    "nom": "Vodka",
+    "prix": 10.0,
+    "degreAlcool": 40,
+    "degreSucre": 2,
+    "stock": 20
+  },
+  "Rhum": {
+    "nom": "Rhum",
+    "prix": 8.0,
+    "degreAlcool": 30,
+    "degreSucre": 0,
+    "stock": 15
+  },
+  "Coca": {
+    "nom": "Coca",
+    "prix": 2.0,
+    "degreAlcool": 0,
+    "degreSucre": 5,
+    "stock": 20
+  }
+}
