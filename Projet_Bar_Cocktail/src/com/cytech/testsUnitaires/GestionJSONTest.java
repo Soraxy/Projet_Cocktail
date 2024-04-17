@@ -81,15 +81,24 @@ public class GestionJSONTest {
 		//printMap.forEach((key,value) -> System.out.println(key + value));
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
 		String jsonStr = gson.toJson(printMap);
-		System.out.println(jsonStr);
+		//System.out.println(jsonStr);
 		
-		Cocktail consta = printMap.get("Mojito");
-		System.out.println(consta);
+		//Cocktail consta = printMap.get("Mojito");
+		//System.out.println(consta);
 		
 		for (Map.Entry<String, Cocktail> entry : printMap.entrySet()) {
 		    String nom = entry.getKey(); // Accéder à la clé (nom du cocktail)
-		    System.out.println(entry.getValue());
+		    //System.out.println(entry.getValue());
 		    System.out.println(nom);
+		    //System.out.println(entry.getValue());
+		    for (Entry<BoissonSimple, Integer> entry2 : entry.getValue().getListeBoissonSimple().entrySet()) {
+		    	System.out.println(entry2.getValue());
+		    }
+		    if (entry.getValue().getListeIngredientBonus()!=null) {
+			    for (Entry<IngredientBonus, Integer> entry3 : entry.getValue().getListeIngredientBonus().entrySet()) {
+			    	System.out.println(entry3.getKey().getNom());
+			    }
+		    }
 		    
 		}
 

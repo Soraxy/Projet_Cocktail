@@ -20,6 +20,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
+import com.google.gson.JsonPrimitive;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 
@@ -83,16 +84,16 @@ public class GestionJSON {
 		}
 	}
 	
-	public static Map<String, Cocktail> lireJSONCocktail(String fichierJSON) {
+	public static Map<String, Cocktail> lireJSONCocktail(String fichierJSON) throws JsonParseException {
 	    try {
 	        JsonReader reader = new JsonReader(new FileReader(fichierJSON));
 	        Gson gson = new GsonBuilder().create();
-	        Map<String, Cocktail> cocktail = gson.fromJson(reader, CocktailCollection.class);
+	        Map<String,Cocktail> cocktail = gson.fromJson(reader, CocktailCollection.class);
 	        return cocktail;
 	    } catch (FileNotFoundException e) {
 	        System.out.println(e.getStackTrace() + " : File Not Found");
 	    } catch (JsonParseException e) {
-	        System.out.println(e.getStackTrace() + " : JsonParseException");
+	    	System.out.println(e);
 	    }
 	    return null;
 	}
@@ -147,7 +148,7 @@ public class GestionJSON {
 		} catch (FileNotFoundException e) {
 			System.out.println(e.getStackTrace() + " : File Not Found");
 		} catch (JsonParseException e) {
-			System.out.println(e.getStackTrace() + " : JsonParseException");
+			System.out.println(e);
 		}
 		return null;
 	}
@@ -233,23 +234,20 @@ public class GestionJSON {
 		return true;
 	}
 	
-	/*public static boolean EcrireJsonCocktail(Map<String, Cocktail> listeCocktail, String fichierJSON) {
+	/*public static void EcrireJsonCommande(List<Commande> listeCommande, String fichierJSON) {
 		//System.out.println(lstCocktail);
 		try {
 			GsonBuilder gsonBuilder = new GsonBuilder();
 			Gson gson = gsonBuilder.setPrettyPrinting().create();
-			String jsonStr = gson.toJson(listeCocktail);
+			String jsonStr = gson.toJson(listeCommande);
 			BufferedWriter bw = new BufferedWriter(new FileWriter(fichierJSON));
 			bw.write(jsonStr);
 			bw.close();
 		} catch (IOException e) {
 			System.out.println(e.getStackTrace() + " : Probleme de fichier");
-			return false;
 		} catch (JsonParseException e) {
 			System.out.println(e.getStackTrace() + " : JsonParseException");
-			return false;
 		}
-		return true;
 	}*/
 	
 	public static boolean EcrireJsonCocktail(Map<String, Cocktail> lstCocktail, String fichierJSON) {
@@ -258,8 +256,6 @@ public class GestionJSON {
 	        JsonObject jsonObject = new JsonObject();
 	        
 	        for (Entry<String, Cocktail> entry : lstCocktail.entrySet()) {
-	        	JsonArray listeBoissonJson = new JsonArray();
-	        	JsonArray listeIngredientJson = new JsonArray();
 	            Cocktail cocktail = entry.getValue();
 	            JsonObject cocktailJson = new JsonObject();
 	            cocktailJson.addProperty("nom", cocktail.getNom());
@@ -268,8 +264,9 @@ public class GestionJSON {
 	            cocktailJson.addProperty("degreSucre", cocktail.getDegreSucre());
 	            
 	            if (cocktail.getListeBoissonSimple() != null) {
+	            	JsonArray listeBoissonJson = new JsonArray();
 	            for (Map.Entry<BoissonSimple, Integer> boissonEntry : cocktail.getListeBoissonSimple().entrySet()) {
-	            	
+	            	JsonArray Boisson = new JsonArray();
 	                JsonObject boissonJson = new JsonObject();
 	                BoissonSimple boisson = boissonEntry.getKey();
 	                int quantite = boissonEntry.getValue();
@@ -277,21 +274,25 @@ public class GestionJSON {
 	                boissonJson.addProperty("prix", boisson.getPrix());
 	                boissonJson.addProperty("degreAlcool", boisson.getDegreAlcool());
 	                boissonJson.addProperty("degreSucre", boisson.getDegreSucre());
-	                //boissonJson.addProperty("quantite", quantite);
-	                listeBoissonJson.add(boissonJson);
+	                Boisson.add(boissonJson);
+	                Boisson.add(quantite);
+	                listeBoissonJson.add(Boisson);
 	            }
 	            cocktailJson.add("ListeBoissonSimple", listeBoissonJson);
 	            }
 	            
 	            if(cocktail.getListeIngredientBonus() != null) {
+	            	JsonArray listeIngredientJson = new JsonArray();
 	            for (Map.Entry<IngredientBonus, Integer> ingredientEntry : cocktail.getListeIngredientBonus().entrySet()) {
+	            	JsonArray Ingredient = new JsonArray();
 	                JsonObject ingredientJson = new JsonObject();
 	                IngredientBonus ingredient = ingredientEntry.getKey();
 	                int quantite = ingredientEntry.getValue();
 	                ingredientJson.addProperty("nom", ingredient.getNom());
 	                ingredientJson.addProperty("prix", ingredient.getPrix());
-	                //ingredientJson.addProperty("quantite", quantite);
-	                listeIngredientJson.add(ingredientJson);
+	                Ingredient.add(ingredientJson);
+	                Ingredient.add(quantite);
+	                listeIngredientJson.add(Ingredient);
 	            }
 	            cocktailJson.add("ListeIngredientBonus", listeIngredientJson);
 	            }
@@ -313,11 +314,85 @@ public class GestionJSON {
 	}
 	
 	public static boolean EcrireJsonCommande(List<Commande> listeCommande, String fichierJSON) {
-	//System.out.println(lstCocktail);
 	try {
 		GsonBuilder gsonBuilder = new GsonBuilder();
 		Gson gson = gsonBuilder.setPrettyPrinting().create();
-		String jsonStr = gson.toJson(listeCommande);
+		JsonArray jsonArray = new JsonArray();
+		for (Commande entry : listeCommande) {
+            JsonObject commandeJson = new JsonObject();
+            commandeJson.addProperty("nomCommande", entry.getNomCommande());
+            commandeJson.addProperty("estServie", entry.isEstServie());
+            commandeJson.addProperty("Date", entry.getDate().toString());
+            commandeJson.addProperty("nomClient", entry.getNomClient());
+            
+            if (entry.getListeBoissonSimple() != null) {
+            	JsonArray listeBoissonJson = new JsonArray();
+            for (Map.Entry<BoissonSimple, Integer> boissonEntry : entry.getListeBoissonSimple().entrySet()) {
+            	JsonArray Boisson = new JsonArray();
+                JsonObject boissonJson = new JsonObject();
+                BoissonSimple boisson = boissonEntry.getKey();
+                int quantite = boissonEntry.getValue();
+                boissonJson.addProperty("nom", boisson.getNom());
+                boissonJson.addProperty("prix", boisson.getPrix());
+                boissonJson.addProperty("degreAlcool", boisson.getDegreAlcool());
+                boissonJson.addProperty("degreSucre", boisson.getDegreSucre());
+                Boisson.add(boissonJson);
+                Boisson.add(quantite);
+                listeBoissonJson.add(Boisson);
+            }
+            commandeJson.add("ListeBoissonSimple", listeBoissonJson);
+            }
+            
+            if(entry.getListeCocktail() != null) {
+            	//JsonObject ObjectCocktail = new JsonObject();
+            	for (Entry<Cocktail, Integer> entryCocktail : entry.getListeCocktail().entrySet()) {
+    	            Cocktail cocktail = entryCocktail.getKey();
+    	            JsonObject cocktailJson = new JsonObject();
+    	            cocktailJson.addProperty("nom", cocktail.getNom());
+    	            cocktailJson.addProperty("prix", cocktail.getPrix());
+    	            cocktailJson.addProperty("degreAlcool", cocktail.getDegreAlcool());
+    	            cocktailJson.addProperty("degreSucre", cocktail.getDegreSucre());
+    	            
+    	            if (cocktail.getListeBoissonSimple() != null) {
+    	            	JsonArray listeBoissonJson = new JsonArray();
+    	            for (Map.Entry<BoissonSimple, Integer> boissonEntry : cocktail.getListeBoissonSimple().entrySet()) {
+    	            	JsonArray Boisson = new JsonArray();
+    	                JsonObject boissonJson = new JsonObject();
+    	                BoissonSimple boisson = boissonEntry.getKey();
+    	                int quantite = boissonEntry.getValue();
+    	                boissonJson.addProperty("nom", boisson.getNom());
+    	                boissonJson.addProperty("prix", boisson.getPrix());
+    	                boissonJson.addProperty("degreAlcool", boisson.getDegreAlcool());
+    	                boissonJson.addProperty("degreSucre", boisson.getDegreSucre());
+    	                Boisson.add(boissonJson);
+    	                Boisson.add(quantite);
+    	                listeBoissonJson.add(Boisson);
+    	            }
+    	            cocktailJson.add("ListeBoissonSimple", listeBoissonJson);
+    	            }
+    	            
+    	            if(cocktail.getListeIngredientBonus() != null) {
+    	            	JsonArray listeIngredientJson = new JsonArray();
+    	            for (Map.Entry<IngredientBonus, Integer> ingredientEntry : cocktail.getListeIngredientBonus().entrySet()) {
+    	            	JsonArray Ingredient = new JsonArray();
+    	                JsonObject ingredientJson = new JsonObject();
+    	                IngredientBonus ingredient = ingredientEntry.getKey();
+    	                int quantite = ingredientEntry.getValue();
+    	                ingredientJson.addProperty("nom", ingredient.getNom());
+    	                ingredientJson.addProperty("prix", ingredient.getPrix());
+    	                Ingredient.add(ingredientJson);
+    	                Ingredient.add(quantite);
+    	                listeIngredientJson.add(Ingredient);
+    	            }
+    	            cocktailJson.add("ListeIngredientBonus", listeIngredientJson);
+    	            }
+    	            
+    	            commandeJson.add(cocktail.getNom(), cocktailJson);
+    	        }
+            }
+            jsonArray.add(commandeJson);
+		}
+		String jsonStr = gson.toJson(jsonArray);
 		BufferedWriter bw = new BufferedWriter(new FileWriter(fichierJSON));
 		bw.write(jsonStr);
 		bw.close();

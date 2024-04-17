@@ -298,7 +298,34 @@ public class Client {
 		}
 			
 		}
+		
 	}
-
+	
+	public static String getNomClient(String email) {
+		List<Client> lstClient = GestionJSON.lireJSON("src\\\\com\\\\cytech\\\\collections\\\\clients.json");
+		for (Client entry : lstClient) {
+			if (entry.getEmail().equals(email)) {
+				return entry.getNom();
+			}
+			else {
+				return null;
+			}
+		}
+		return null;
+	}
+	
+	public static void voirCommande(String nom) {
+		List<Commande> lstCommande = GestionJSON.lireJSONCommande("src\\\\com\\\\cytech\\\\collections\\\\commandes.json");
+		for (Commande entry : lstCommande) {
+			if (entry.getNomClient().equals(nom)) {
+				System.out.println(entry.getNomClient());
+				System.out.println(entry.getNomCommande());
+				System.out.println(entry.getDate());
+				System.out.println(entry.getListeBoissonSimple());
+				System.out.println(entry.getListeCocktail());
+			}
+		    
+		}
+	}
 
 }

@@ -1,0 +1,45 @@
+[
+  {
+    "nomCommande": "Commandetest",
+    "estServie": false,
+    "Date": "Sun Jul 05 05:33:20 CEST 2009",
+    "nomClient": "a",
+    "ListeBoissonSimple": [
+      [
+        {
+          "nom": "Vodka",
+          "prix": 10.0,
+          "degreAlcool": 40.0,
+          "degreSucre": 2.0
+        },
+        1
+      ]
+    ],
+    "CubaLibre": {
+      "nom": "CubaLibre",
+      "prix": 25.0,
+      "degreAlcool": 20.0,
+      "degreSucre": 10.0,
+      "ListeBoissonSimple": [
+        [
+          {
+            "nom": "Vodka",
+            "prix": 10.0,
+            "degreAlcool": 40.0,
+            "degreSucre": 2.0
+          },
+          2
+        ],
+        [
+          {
+            "nom": "Rhum",
+            "prix": 8.0,
+            "degreAlcool": 30.0,
+            "degreSucre": 0.0
+          },
+          1
+        ]
+      ]
+    }
+  }
+]

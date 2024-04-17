@@ -31,6 +31,10 @@ public class ClientTest {
 		
 		Client.connexion(email, mdp);
 		
-		Client.passerCommande(email);
+		//Client.passerCommande(email);
+		String nomClient = Client.getNomClient(email);
+		System.out.println(nomClient);
+		
+		Client.voirCommande(nomClient);
 	}
 }
