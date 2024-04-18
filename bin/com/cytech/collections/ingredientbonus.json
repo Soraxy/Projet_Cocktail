@@ -1,0 +1,10 @@
+{
+  "Citron": {
+    "nom": "Citron",
+    "prix": 1
+  },
+  "Sucre de canne": {
+    "nom": "Sucre de canne",
+    "prix": 2
+  }
+}
