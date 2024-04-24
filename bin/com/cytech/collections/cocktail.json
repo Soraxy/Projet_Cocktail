@@ -1,0 +1,50 @@
+{
+  "Cuba Libre": {
+    "nom": "Cuba Libre",
+    "prix": 25.0,
+    "degreAlcool": 20.0,
+    "degreSucre": 10.0,
+    "ListeBoissonSimple": [
+      [
+        "Coca",
+        2
+      ],
+      [
+        "Rhum",
+        3
+      ],
+      [
+        "Vodka",
+        1
+      ]
+    ],
+    "ListeIngredientBonus": [
+      [
+        "ing2",
+        2
+      ],
+      [
+        "ing1",
+        1
+      ]
+    ]
+  },
+  "Rhum Citron": {
+    "nom": "Rhum Citron",
+    "prix": 82.0,
+    "degreAlcool": 30.0,
+    "degreSucre": 0.0,
+    "ListeBoissonSimple": [
+      [
+        "Rhum",
+        10
+      ]
+    ],
+    "ListeIngredientBonus": [
+      [
+        "Citron",
+        2
+      ]
+    ]
+  }
+}
