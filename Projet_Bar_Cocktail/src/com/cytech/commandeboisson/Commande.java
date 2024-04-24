@@ -2,21 +2,18 @@ package com.cytech.commandeboisson;
 
 import java.util.*;
 
-import com.cytech.Ingredients.BoissonSimple;
-import com.cytech.Ingredients.Cocktail;
-
 public class Commande {
 	
     private String nomCommande;
-    private Map <BoissonSimple,Integer> listeBoisson;
-    private Map <Cocktail, Integer> listeCocktail;
+    private Map <String,Integer> listeBoisson;
+    private Map <String, Integer> listeCocktail;
     private boolean estServie;
-    private Date date;
+    private String date;
     private String nomClient;
     
    
-	public Commande(String nomCommande, Map<BoissonSimple, Integer> listeCommande, Map <Cocktail, Integer> listeCocktail,
-			boolean estServie, Date date, String nomClient) {
+	public Commande(String nomCommande, Map<String, Integer> listeCommande, Map <String, Integer> listeCocktail,
+			boolean estServie, String date, String nomClient) {
 		super();
 		this.nomCommande = nomCommande;
 		this.listeBoisson = listeCommande;
@@ -34,19 +31,19 @@ public class Commande {
 		this.nomCommande = nomCommande;
 	}
 
-	public Map<BoissonSimple, Integer> getListeBoissonSimple() {
+	public Map<String, Integer> getListeBoisson() {
 		return listeBoisson;
 	}
 
-	public void setListeBoissonSimple(Map<BoissonSimple, Integer> listeCommande) {
+	public void setListeBoisson(Map<String, Integer> listeCommande) {
 		this.listeBoisson = listeCommande;
 	}
 
-	public Map<Cocktail, Integer> getListeCocktail() {
+	public Map<String, Integer> getListeCocktail() {
 		return listeCocktail;
 	}
 
-	public void setListeCocktail(Map<Cocktail, Integer> listeCocktail) {
+	public void setListeCocktail(Map<String, Integer> listeCocktail) {
 		this.listeCocktail = listeCocktail;
 	}
 
@@ -58,11 +55,11 @@ public class Commande {
 		this.estServie = estServie;
 	}
 
-	public Date getDate() {
+	public String getDate() {
 		return date;
 	}
 
-	public void setDate(Date date) {
+	public void setDate(String date) {
 		this.date = date;
 	}
 
@@ -80,7 +77,7 @@ public class Commande {
 				+ listeCocktail + ", estServie=" + estServie + ", date=" + date + ", nomClient=" + nomClient + "]";
 	}
 
-	public void ajouterBoissonCommande(BoissonSimple toAdd, int quantité) {
+	public void ajouterBoissonCommande(String toAdd, int quantité) {
 		if (listeBoisson == null) {
             listeBoisson = new HashMap<>();
         }
@@ -93,7 +90,7 @@ public class Commande {
 		
 	}
 	
-	public void ajouterCocktail(Cocktail addCocktail, int quantité) {
+	public void ajouterCocktail(String addCocktail, int quantité) {
 		if (listeCocktail == null) {
             listeCocktail = new HashMap<>();
         }
@@ -104,6 +101,26 @@ public class Commande {
         	listeCocktail.put(addCocktail, quantité);
         }
 		
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(date, estServie, listeBoisson, listeCocktail, nomClient, nomCommande);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Commande other = (Commande) obj;
+		return Objects.equals(date, other.date) && estServie == other.estServie
+				&& Objects.equals(listeBoisson, other.listeBoisson)
+				&& Objects.equals(listeCocktail, other.listeCocktail) && Objects.equals(nomClient, other.nomClient)
+				&& Objects.equals(nomCommande, other.nomCommande);
 	}
 
    

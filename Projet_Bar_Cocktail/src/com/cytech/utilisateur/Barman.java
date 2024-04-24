@@ -1,5 +1,4 @@
 package com.cytech.utilisateur;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.*;
@@ -25,179 +24,34 @@ public class Barman {
 	}
 
 	public static double encaisser(Commande servie) {
-    	for (Entry<BoissonSimple, Integer> ListeBoisson : servie.getListeBoissonSimple().entrySet()) {
-    		double prix = ListeBoisson.getKey().getPrix() * ListeBoisson.getValue(); 
-    		profit = profit + prix;
+    	for (Entry<String, Integer> ListeBoisson : servie.getListeBoisson().entrySet()) {
+				Map<String, BoissonSimple> boissonsMap = GestionJSON.lireJSONBoisson("src\\\\com\\\\cytech\\\\collections\\\\boissonsimple.json");
+				for (Map.Entry<String, BoissonSimple> entry : boissonsMap.entrySet()) {
+					String nom = entry.getKey();
+					if (nom.equals(ListeBoisson.getKey())) {
+						double prix = entry.getValue().getPrix() * ListeBoisson.getValue(); 
+						profit = profit + prix;
+					}
+				}
+    		
     		
     	}
     	
-    	for (Entry<Cocktail, Integer> ListeCocktail : servie.getListeCocktail().entrySet()) {
-    		double prix = ListeCocktail.getKey().getPrix() * ListeCocktail.getValue(); 
-    		profit = profit + prix;
+    	for (Entry<String, Integer> ListeCocktail : servie.getListeCocktail().entrySet()) {
+				Map<String, Cocktail> boissonsMap = GestionJSON.lireJSONCocktail("src\\\\com\\\\cytech\\\\collections\\\\cocktail.json");
+				
+				for (Entry<String, Cocktail> entry : boissonsMap.entrySet()) {
+					String nom = entry.getKey();
+					
+					if (nom.equals(ListeCocktail.getKey())) {
+						double prix = entry.getValue().getPrix() * ListeCocktail.getValue(); 
+						profit = profit + prix;
+					}
+				}
     		
     	}
     	return profit;
     }
-
-	public static void creerCocktail() {
-		Scanner sc = new Scanner(System.in);
-		boolean boissonCreaCocktail = true;
-		boolean ingredientCreaCocktail = true;
-		String choixCocktail;
-		System.out.println("Donnez un nom à votre cocktail");
-		choixCocktail = sc.next();
-		
-		Cocktail newCocktail = new Cocktail(0, choixCocktail, 0, 0, null, null);
-		while (boissonCreaCocktail) {
-			
-			System.out.println("Ajoutez des boissons à votre cocktail, voici la liste des boissons disponibles ");
-			GestionJSON.lireJSONBoisson("src\\\\com\\\\cytech\\\\collections\\\\boissonsimple.json");
-			System.out.println("Tapez le nom de votre boisson pour l'ajouter sinon tapez FIN pour passer à la suite");
-			
-			choixCocktail = sc.next();
-			if (!choixCocktail.equals("FIN")) {
-				try (FileReader reader = new FileReader("src\\com\\cytech\\collections\\boissonsimple.json")) {
-					Gson gson = new GsonBuilder().create();
-					Map<String, BoissonSimple> boissonsMap = gson.fromJson(reader, new TypeToken<Map<String, BoissonSimple>>(){}.getType());
-					
-					boolean boissonTrouvee = false;
-					for (Map.Entry<String, BoissonSimple> entry : boissonsMap.entrySet()) {
-						String nom = entry.getKey();
-						BoissonSimple toAdd = entry.getValue();
-						
-						if (nom.equals(choixCocktail)) {
-							boissonTrouvee = true;
-							System.out.println("Choisir une quantité");
-							int quantité = sc.nextInt();
-							newCocktail.ajouterBoisson(toAdd, quantité);
-						}
-					}
-					
-					if (boissonTrouvee) {
-						System.out.println("Liste des boissons du cocktail après ajout :");
-				        for (Map.Entry<BoissonSimple, Integer> entry : newCocktail.getListeBoissonSimple().entrySet()) {
-				            System.out.println(entry.getKey().getNom() + " - Quantité : " + entry.getValue());
-				        }
-				        System.out.println("\n");
-					}
-					
-					else {
-						System.out.println("Boisson non trouvée !");
-					}
-			  } 
-				
-				catch (FileNotFoundException e) {
-				  System.out.println(e.getStackTrace() + " : File Not Found");
-				e.printStackTrace();
-			  } 
-				catch (IOException e) {
-				System.out.println(e.getStackTrace() + " : JsonParseException");
-				e.printStackTrace();
-			  	}
-			}
-			
-			else {
-				boissonCreaCocktail = false;
-			}
-		}
-		
-		while (ingredientCreaCocktail) {
-			
-			System.out.println("Ajoutez des ingrédients à votre cocktail, voici la liste des ingrédients disponibles ");
-			GestionJSON.lireJSONIngredient("src\\\\com\\\\cytech\\\\collections\\\\ingredientsbonus.json");
-			System.out.println("Tapez le nom de votre ingrédient pour l'ajouter sinon tapez FIN pour passer à la suite");
-			
-			choixCocktail = sc.next();
-			if (!choixCocktail.equals("FIN")) {
-				try (FileReader reader = new FileReader("src\\com\\cytech\\collections\\ingredientbonus.json")) {
-					Gson gson = new GsonBuilder().create();
-					Map<String, IngredientBonus> ingredientMap = gson.fromJson(reader, new TypeToken<Map<String, IngredientBonus>>(){}.getType());
-					
-					boolean ingredientTrouve = false;
-					for (Map.Entry<String, IngredientBonus> entry : ingredientMap.entrySet()) {
-						String nom = entry.getKey();
-						IngredientBonus toAdd = entry.getValue();
-						
-						if (nom.equals(choixCocktail)) {
-							ingredientTrouve = true;
-							System.out.println("Choisir une quantité");
-							int quantité = sc.nextInt();
-							newCocktail.ajouterIngredient(toAdd, quantité);
-						}
-					}
-					
-					if (ingredientTrouve) {
-						System.out.println("Liste des ingrédients du cocktail après ajout :");
-				        for (Map.Entry<IngredientBonus, Integer> entry : newCocktail.getListeIngredientBonus().entrySet()) {
-				            System.out.println(entry.getKey().getNom() + " - Quantité : " + entry.getValue());
-				        }
-				        System.out.println("\n");
-					}
-					
-					else {
-						System.out.println("Ingrédient non trouvé !");
-					}
-			  } 
-				
-				catch (FileNotFoundException e) {
-				  System.out.println(e.getStackTrace() + " : File Not Found");
-				e.printStackTrace();
-			  } 
-				catch (IOException e) {
-				System.out.println(e.getStackTrace() + " : JsonParseException");
-				e.printStackTrace();
-			  	}
-			}
-			
-			else {
-				ingredientCreaCocktail = false;
-			}
-		}
-		
-		System.out.println("Récapitulatif du cocktail");
-		System.out.println("Liste des boissons du cocktail après ajout :");
-		if (newCocktail.getListeBoissonSimple() != null) {
-        for (Map.Entry<BoissonSimple, Integer> entry : newCocktail.getListeBoissonSimple().entrySet()) {
-            System.out.println(entry.getKey().getNom() + " - Quantité : " + entry.getValue());
-        }
-		}
-        System.out.println("\n");
-        System.out.println("Liste des ingrédients du cocktail après ajout :");
-        if (newCocktail.getListeIngredientBonus() != null) {
-        for (Map.Entry<IngredientBonus, Integer> entry : newCocktail.getListeIngredientBonus().entrySet()) {
-            System.out.println(entry.getKey().getNom() + " - Quantité : " + entry.getValue());
-        }
-        System.out.println("\n");
-        }
-        
-        double prixTotal = newCocktail.calculerPrix();
-        double degreAlcoolTotal = newCocktail.calculerDegreAlcool();
-        double degreSucreTotal = newCocktail.calculerDegreSucre();
-        
-        newCocktail.setPrix(prixTotal);
-        newCocktail.setDegreAlcool(degreAlcoolTotal);
-        newCocktail.setDegreSucre(degreSucreTotal);
-        
-        System.out.println("Prix total du cocktail : " + prixTotal);
-        System.out.println("Degré d'alcool total du cocktail : " + degreAlcoolTotal);
-        System.out.println("Degré de sucre total du cocktail : " + degreSucreTotal);
-        
-        System.out.println("Confirmer la création du cocktail ? \n O.Confirmer\n N.Annuler");
-        choixCocktail =sc.next();
-        switch (choixCocktail) {
-        case "O":
-        	Map<String, Cocktail> lstCocktail = GestionJSON.lireJSONCocktail("src\\\\com\\\\cytech\\\\collections\\\\cocktail.json");
-        	if (lstCocktail == null) {
-        		lstCocktail = new HashMap<>();
-        	}
-        	lstCocktail.put(newCocktail.getNom(), newCocktail);
-        	GestionJSON.EcrireJsonCocktail(lstCocktail, "src\\\\com\\\\cytech\\\\collections\\\\cocktail.json");
-        	break;
-        case "N":
-        	break;
-        }
-	       //sc.close();
-	}
 	
 	public static void remplirStock() {
 		Scanner sc = new Scanner(System.in);
@@ -206,20 +60,20 @@ public class Barman {
 			Gson gson = new GsonBuilder().create();
 			Map<String, BoissonSimple> boissonsMap = gson.fromJson(reader, new TypeToken<Map<String, BoissonSimple>>(){}.getType());
 	
-            Map<BoissonSimple, Integer> newMap = new HashMap<>();
+            Map<String, BoissonSimple> newMap = new HashMap<>();
             System.out.println("Choisissez une boisson à remplir");
             choixboisson = sc.next();
             boolean boissonTrouvee = false;
 			for (Map.Entry<String, BoissonSimple> entry : boissonsMap.entrySet()) {
 				String nom = entry.getKey();
 				
-				newMap.put(entry.getValue(), 1);
+				newMap.put(nom, entry.getValue());
 				if (nom.equals(choixboisson)) {
 					boissonTrouvee = true;
 					System.out.println("Rentrez une valeur de stock");
 					int newStock = sc.nextInt();
 					Barman.reapprovisionner(entry.getValue(), newStock);
-					newMap.put(entry.getValue(), newStock);
+					newMap.put(nom, entry.getValue());
 				}
 			}
 			
@@ -242,29 +96,60 @@ public class Barman {
     	Astockplus.setStock(Astockplus.getStock() + stockplus);
     }
 
-    public static void servirCommande(Commande aServir) {
-    	try (FileReader reader = new FileReader("src\\com\\cytech\\collections\\boissonsimple.json")) {
-			Gson gson = new GsonBuilder().create();
-			Map<String, BoissonSimple> boissonsMap = gson.fromJson(reader, new TypeToken<Map<String, BoissonSimple>>(){}.getType());
+    public static boolean servirCommande(Commande aServir) {
+    		
+			Map<String, BoissonSimple> boissonsMap = GestionJSON.lireJSONBoisson("src\\com\\cytech\\collections\\boissonsimple.json");
+			Map<String, Cocktail> cocktailMap = GestionJSON.lireJSONCocktail("src\\com\\cytech\\collections\\cocktail.json");
 			
-            Map<BoissonSimple, Integer> newMap = new HashMap<>();
-            for (Entry<BoissonSimple, Integer> ListeBoisson : aServir.getListeBoissonSimple().entrySet()) {
-				for (Map.Entry<String, BoissonSimple> entry : boissonsMap.entrySet()) {
-					String nom = entry.getKey();
+            Map<String, BoissonSimple> newMap = new HashMap<>();
+            for (Map.Entry<String, BoissonSimple> entry : boissonsMap.entrySet()) {
+            	String nom = entry.getKey();
+				for (Entry<String, Integer> ListeBoisson : aServir.getListeBoisson().entrySet()) {
 					
-					if (nom.equals(ListeBoisson.getKey().getNom())) {
-						entry.getValue().setStock(entry.getValue().getStock() - ListeBoisson.getKey().getStock());
-						newMap.put(entry.getValue(), ListeBoisson.getKey().getStock());
+					if (nom.equals(ListeBoisson.getKey())) {
+						if(((entry.getValue().getStock() - ListeBoisson.getValue()))<0) {
+							return false;
+						}
+						else {
+							entry.getValue().setStock(entry.getValue().getStock() - ListeBoisson.getValue());
+						}
+						
 					}
 				}
+				
+				if (aServir.getListeCocktail()!=null) {
+					for (Entry<String, Integer> ListeCocktail : aServir.getListeCocktail().entrySet()) {
+						for (Map.Entry<String, Cocktail> entryCocktail : cocktailMap.entrySet()) {
+							if(entryCocktail.getValue().estEnStock()) {
+								if(ListeCocktail.getKey().equals(entryCocktail.getKey())) {
+									for (Entry<String,Integer> boisson : entryCocktail.getValue().getListeBoissonSimple().entrySet()) {
+										if(nom.equals(boisson.getKey())) {
+											if(((entry.getValue().getStock() - boisson.getValue()))<0) {
+												return false;
+											}
+											else {
+												entry.getValue().setStock(entry.getValue().getStock() - boisson.getValue());
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+				newMap.put(nom, entry.getValue());
             }
-				GestionJSON.EcrireJsonBoisson(newMap,"src\\com\\cytech\\collections\\boissonsimple.json");
-    	}
-		catch (IOException e) {
-           e.printStackTrace();
-		}
-    	aServir.setEstServie(true);
-    	//sc.close();
+            
+            
+			GestionJSON.EcrireJsonBoisson(newMap,"src\\com\\cytech\\collections\\boissonsimple.json");
+
+			List<Commande> lstCommande = GestionJSON.lireJSONCommande("src\\\\com\\\\cytech\\\\collections\\\\commandes.json");
+			lstCommande.remove(aServir);
+			aServir.setEstServie(true);
+			lstCommande.add(aServir);
+			GestionJSON.EcrireJsonCommande(lstCommande, "src\\\\com\\\\cytech\\\\collections\\\\commandes.json");
+			
+			return true;
 	} 
 		
 		

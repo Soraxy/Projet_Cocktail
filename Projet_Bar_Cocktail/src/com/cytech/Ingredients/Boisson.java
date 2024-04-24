@@ -6,8 +6,10 @@ public class Boisson {
     private String nom;
     private double degreAlcool;
     private double degreSucre;
+    private int quantite;
+    private String type;
 
-    public Boisson( double prix, String nom, double degreAlcool, double degreSucre) {
+    public Boisson(double prix, String nom,  double degreAlcool, double degreSucre) {
 		this.prix = prix;
 		this.nom = nom;
 		this.degreAlcool = degreAlcool;
@@ -15,6 +17,17 @@ public class Boisson {
 	}
 
 	
+	public Boisson(double prix, String nom, double degreAlcool, double degreSucre, int quantite, String type) {
+		super();
+		this.prix = prix;
+		this.nom = nom;
+		this.degreAlcool = degreAlcool;
+		this.degreSucre = degreSucre;
+		this.quantite = quantite;
+		this.type = type;
+	}
+
+
 	public double getPrix() {
 		return prix;
 	}
@@ -46,6 +59,27 @@ public class Boisson {
 	public void setDegreSucre(double degreSucre) {
 		this.degreSucre = degreSucre;
 	}
+
+
+	public int getQuantite() {
+		return quantite;
+	}
+
+
+	public void setQuantite(int quantite) {
+		this.quantite = quantite;
+	}
+
+
+	public String getType() {
+		return type;
+	}
+
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
 
 
 }

@@ -4,6 +4,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.*;
+import java.util.Map.Entry;
 
 import com.cytech.Ingredients.BoissonSimple;
 import com.cytech.Ingredients.Cocktail;
@@ -100,14 +101,9 @@ public class Client {
 		this.phraseSecrete = phraseSecrete;
 	}
 
-	public static void inscrire() {
+	/*public static void inscrire() {
 		
 		
-		Scanner info = new Scanner(System.in);
-		System.out.println("Saisir votre nom");
-		String newNom = info.next();
-		System.out.println("Saisir votre prénom");
-		String newPrenom = info.next();
 		String newEmail = null;
 		boolean emailUnique = false;
 	    List<Client> lstClient = GestionJSON.lireJSON("src/com/cytech/collections/clients.json");
@@ -120,15 +116,6 @@ public class Client {
 	            System.out.println("Cet email est déjà utilisé. Veuillez en choisir un autre.");
 	        }
 	    }
-		System.out.println("Saisir votre date de naissance");   //Conditions sur String TODO
-		String newNaissance = info.next();
-		System.out.println("Saisir votre adresse");
-		String newAdresse = info.next();
-		System.out.println("Saisir votre mot de passe");
-		String newPassword = info.next();
-		System.out.println("Saisir votre phrase secrète");
-		String newPhrase = info.next();
-		//info.close();
 		
 		Client newClient = new Client(newEmail, newPassword, newNom, newPrenom, newNaissance, newAdresse, newPhrase);
 		lstClient =  GestionJSON.lireJSON("src\\com\\cytech\\collections\\clients.json");
@@ -137,9 +124,9 @@ public class Client {
 	    }
 		lstClient.add(newClient);
 		GestionJSON.EcrireJsonDirecte(lstClient, "src\\com\\cytech\\collections\\clients.json");
-    }
+    }*/
 	
-	private static boolean isEmailUnique(String email, List<Client> clients) {
+	public static boolean isEmailUnique(String email, List<Client> clients) {
 		if (clients == null) {
 			return true;
 		}
@@ -183,7 +170,7 @@ public class Client {
 		Date date = new Date();
 		String nomCommande = date.toString()+ email.toString();
 		String choixCommande;
-		Commande newCommande = new Commande(nomCommande, null, null, false, date, email);
+		Commande newCommande = new Commande(nomCommande, null, null, false, date.toString(), email);
 		while (boissonCreaCommande) {
 			
 			System.out.println("Ajoutez des boissons à votre commande, voici la liste des boissons disponibles ");
@@ -199,25 +186,25 @@ public class Client {
 					boolean boissonTrouvee = false;
 					for (Map.Entry<String, BoissonSimple> entry : boissonsMap.entrySet()) {
 						String nom = entry.getKey();
-						BoissonSimple toAdd = entry.getValue();
+						String toAdd = entry.getValue().getNom();
 						
 						if (nom.equals(choixCommande)) {
 							System.out.println("Choisir une quantité");
 							int quantité = sc.nextInt();
-							if(toAdd.getStock()>=quantité) {
+							if(entry.getValue().getStock()>=quantité) {
 								boissonTrouvee = true;
 								newCommande.ajouterBoissonCommande(toAdd, quantité);
 							}
 							else {
-								System.out.println("Stock insuffisant il reste " + toAdd.getStock() + " de " + nom);
+								System.out.println("Stock insuffisant il reste " + entry.getValue().getStock() + " de " + nom);
 							}
 						}
 					}
 					
 					if (boissonTrouvee) {
 						System.out.println("Liste des boissons de la commande après ajout :");
-				        for (Map.Entry<BoissonSimple, Integer> entry : newCommande.getListeBoissonSimple().entrySet()) {
-				            System.out.println(entry.getKey().getNom() + " - Quantité : " + entry.getValue());
+				        for (Entry<String, Integer> entry : newCommande.getListeBoisson().entrySet()) {
+				            System.out.println(entry.getKey() + " - Quantité : " + entry.getValue());
 				        }
 				        System.out.println("\n");
 					}
@@ -259,7 +246,7 @@ public class Client {
 						for (Map.Entry<String, Cocktail> entry : lstCocktail.entrySet()) {
 							System.out.println(entry);
 							String nom = entry.getKey();
-							Cocktail toAdd = entry.getValue();
+							String toAdd = entry.getValue().getNom();
 							
 							if (nom.equals(choixCommande)) {
 								System.out.println("Choisir une quantité");
@@ -273,8 +260,8 @@ public class Client {
 						
 						if (cocktailTrouve) {
 							System.out.println("Liste des cocktails de la commande après ajout :");
-					        for (Map.Entry<BoissonSimple, Integer> entry : newCommande.getListeBoissonSimple().entrySet()) {
-					            System.out.println(entry.getKey().getNom() + " - Quantité : " + entry.getValue());
+					        for (Entry<String, Integer> entry : newCommande.getListeBoisson().entrySet()) {
+					            System.out.println(entry.getKey() + " - Quantité : " + entry.getValue());
 					        }
 					        System.out.println("\n");
 						}
@@ -307,25 +294,20 @@ public class Client {
 			if (entry.getEmail().equals(email)) {
 				return entry.getNom();
 			}
-			else {
-				return null;
-			}
 		}
 		return null;
 	}
 	
-	public static void voirCommande(String nom) {
+	public static List<Commande> voirCommande(String nom) {
 		List<Commande> lstCommande = GestionJSON.lireJSONCommande("src\\\\com\\\\cytech\\\\collections\\\\commandes.json");
+		List<Commande> commandesClients = new ArrayList<>();
 		for (Commande entry : lstCommande) {
 			if (entry.getNomClient().equals(nom)) {
-				System.out.println(entry.getNomClient());
-				System.out.println(entry.getNomCommande());
-				System.out.println(entry.getDate());
-				System.out.println(entry.getListeBoissonSimple());
-				System.out.println(entry.getListeCocktail());
+				commandesClients.add(entry);
 			}
 		    
 		}
+		return commandesClients;
 	}
 
 }

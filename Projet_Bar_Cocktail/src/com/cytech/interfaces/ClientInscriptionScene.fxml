@@ -8,7 +8,6 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.cytech.application.MainSceneController">
    <children>
       <Label layoutX="266.0" layoutY="53.0" text="Client">
@@ -17,15 +16,15 @@
          </font>
       </Label>
       <Label layoutX="262.0" layoutY="106.0" text="Inscription" />
-      <PasswordField layoutX="215.0" layoutY="287.0" promptText="Mot de passe" />
-      <DatePicker editable="false" layoutX="214.0" layoutY="225.0" prefHeight="25.0" prefWidth="173.0" promptText="Date de naissance" />
+      <PasswordField fx:id="passwordInscr" layoutX="215.0" layoutY="287.0" promptText="Mot de passe" />
+      <DatePicker fx:id="naissInscr" editable="false" layoutX="214.0" layoutY="225.0" prefHeight="25.0" prefWidth="173.0" promptText="Date de naissance" />
       <Button layoutX="61.0" layoutY="207.0" mnemonicParsing="false" onAction="#btnclickclient" text="Se connecter" />
       <Label layoutX="69.0" layoutY="179.0" text="Déjà inscrit ?" />
-      <Button layoutX="215.0" layoutY="361.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="150.0" text="S'inscrire" />
-      <TextField layoutX="215.0" layoutY="136.0" promptText="Nom" />
-      <TextField layoutX="215.0" layoutY="167.0" promptText="Prénom" />
-      <TextField layoutX="215.0" layoutY="195.0" promptText="Email" />
-      <TextField layoutX="216.0" layoutY="256.0" promptText="Adresse" />
-      <TextField layoutX="216.0" layoutY="321.0" promptText="Phrase secrète" />
+      <Button layoutX="215.0" layoutY="361.0" mnemonicParsing="false" onAction="#cltinscription" prefHeight="25.0" prefWidth="150.0" text="S'inscrire" />
+      <TextField fx:id="nomInsc" layoutX="215.0" layoutY="136.0" promptText="Nom" />
+      <TextField fx:id="prenomInscr" layoutX="215.0" layoutY="167.0" promptText="Prénom" />
+      <TextField fx:id="emailInscr" layoutX="215.0" layoutY="195.0" promptText="Email" />
+      <TextField fx:id="adresseInscr" layoutX="216.0" layoutY="256.0" promptText="Adresse" />
+      <TextField fx:id="secretInscr" layoutX="216.0" layoutY="321.0" promptText="Phrase secrète" />
    </children>
 </AnchorPane>

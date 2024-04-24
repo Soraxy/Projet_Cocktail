@@ -1,5 +1,7 @@
 package com.cytech.Ingredients;
 
+import java.util.Objects;
+
 public class BoissonSimple extends Boisson {
 	
 		private int stock;
@@ -35,6 +37,25 @@ public class BoissonSimple extends Boisson {
 		@Override
 		public String toString() {
 			return "BoissonSimple [stock=" + stock + "]";
+		}
+
+
+		@Override
+		public int hashCode() {
+			return Objects.hash(stock);
+		}
+
+
+		@Override
+		public boolean equals(Object obj) {
+			if (this == obj)
+				return true;
+			if (obj == null)
+				return false;
+			if (getClass() != obj.getClass())
+				return false;
+			BoissonSimple other = (BoissonSimple) obj;
+			return stock == other.stock;
 		}
 
 

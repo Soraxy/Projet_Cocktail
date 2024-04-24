@@ -1,52 +1,48 @@
 {
-  "RhumCoca": {
-    "nom": "RhumCoca",
-    "prix": 60.0,
-    "degreAlcool": 30.0,
-    "degreSucre": 5.0,
+  "Cuba Libre": {
+    "nom": "Cuba Libre",
+    "prix": 25.0,
+    "degreAlcool": 20.0,
+    "degreSucre": 10.0,
     "ListeBoissonSimple": [
       [
-        {
-          "nom": "Coca",
-          "prix": 2.0,
-          "degreAlcool": 0.0,
-          "degreSucre": 5.0
-        },
-        10
+        "Coca",
+        2
       ],
       [
-        {
-          "nom": "Rhum",
-          "prix": 8.0,
-          "degreAlcool": 30.0,
-          "degreSucre": 0.0
-        },
-        5
+        "Rhum",
+        3
+      ],
+      [
+        "Vodka",
+        1
+      ]
+    ],
+    "ListeIngredientBonus": [
+      [
+        "ing2",
+        2
+      ],
+      [
+        "ing1",
+        1
       ]
     ]
   },
-  "Mojito": {
-    "nom": "Mojito",
-    "prix": 102.0,
-    "degreAlcool": 40.0,
-    "degreSucre": 2.0,
+  "Rhum Citron": {
+    "nom": "Rhum Citron",
+    "prix": 82.0,
+    "degreAlcool": 30.0,
+    "degreSucre": 0.0,
     "ListeBoissonSimple": [
       [
-        {
-          "nom": "Vodka",
-          "prix": 10.0,
-          "degreAlcool": 40.0,
-          "degreSucre": 2.0
-        },
+        "Rhum",
         10
       ]
     ],
     "ListeIngredientBonus": [
       [
-        {
-          "nom": "Citron",
-          "prix": 1
-        },
+        "Citron",
         2
       ]
     ]

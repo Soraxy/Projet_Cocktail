@@ -36,5 +36,7 @@ public class ClientTest {
 		System.out.println(nomClient);
 		
 		Client.voirCommande(nomClient);
+		
+		sc.close();
 	}
 }

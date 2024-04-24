@@ -1,23 +1,44 @@
 {
-  "Vodka": {
-    "nom": "Vodka",
-    "prix": 10.0,
-    "degreAlcool": 40,
-    "degreSucre": 2,
-    "stock": 20
-  },
   "Rhum": {
     "nom": "Rhum",
     "prix": 8.0,
-    "degreAlcool": 30,
-    "degreSucre": 0,
-    "stock": 15
+    "degreAlcool": 30.0,
+    "degreSucre": 0.0,
+    "stock": 4
+  },
+  "Eau": {
+    "nom": "Eau",
+    "prix": 0.1,
+    "degreAlcool": 0.0,
+    "degreSucre": 0.0,
+    "stock": 1
+  },
+  "Fanta": {
+    "nom": "Fanta",
+    "prix": 2.0,
+    "degreAlcool": 40.0,
+    "degreSucre": 2.0,
+    "stock": 10
   },
   "Coca": {
     "nom": "Coca",
     "prix": 2.0,
-    "degreAlcool": 0,
-    "degreSucre": 5,
-    "stock": 20
+    "degreAlcool": 0.0,
+    "degreSucre": 5.0,
+    "stock": 96
+  },
+  "Vodka": {
+    "nom": "Vodka",
+    "prix": 10.0,
+    "degreAlcool": 40.0,
+    "degreSucre": 2.0,
+    "stock": 81
+  },
+  "Ice Tea": {
+    "nom": "Ice Tea",
+    "prix": 1.0,
+    "degreAlcool": 0.0,
+    "degreSucre": 1.0,
+    "stock": 30
   }
 }

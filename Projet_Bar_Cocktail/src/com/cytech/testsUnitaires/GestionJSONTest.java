@@ -45,11 +45,11 @@ public class GestionJSONTest {
 		BoissonSimple testb2 = new BoissonSimple("test2",10, 0, 0,5);
 		BoissonSimple testb3 = new BoissonSimple("test3",10, 0, 0,5);
 		
-		Map <BoissonSimple,Integer> listeBoisson = new HashMap<BoissonSimple, Integer>();
+		Map <String,Integer> listeBoisson = new HashMap<String, Integer>();
 		
-		listeBoisson.put(testb,1);
-		listeBoisson.put(testb2,2);
-		listeBoisson.put(testb3,3);
+		listeBoisson.put(testb.getNom(),1);
+		listeBoisson.put(testb2.getNom(),2);
+		listeBoisson.put(testb3.getNom(),3);
 		
 		
 		//System.out.println("Sauvegarde directe : " + 
@@ -60,10 +60,10 @@ public class GestionJSONTest {
 		IngredientBonus ing1 = new IngredientBonus("ing1", 1);
 		IngredientBonus ing2 = new IngredientBonus("ing2", 1);
 		
-		Map <IngredientBonus, Integer> listeIngredient = new HashMap<IngredientBonus, Integer>();
+		Map <String, Integer> listeIngredient = new HashMap<String, Integer>();
 		
-		listeIngredient.put(ing1, 1);
-		listeIngredient.put(ing2, 2);
+		listeIngredient.put(ing1.getNom(), 1);
+		listeIngredient.put(ing2.getNom(), 2);
 		
 		//System.out.println("Sauvegarde directe : " + 
 				//GestionJSON.EcrireJsonIngredient(listeIngredient, "src\\com\\cytech\\collections\\ingredientbonus.json"));
@@ -76,7 +76,7 @@ public class GestionJSONTest {
 		
 		listeCocktail.put(cocktail.getNom(), cocktail);
 		
-		//GestionJSON.EcrireJsonCocktail(listeCocktail, "src\\\\com\\\\cytech\\\\collections\\\\cocktail.json");
+		GestionJSON.EcrireJsonCocktail(listeCocktail, "src\\\\com\\\\cytech\\\\collections\\\\cocktail.json");
 		Map <String, Cocktail> printMap = GestionJSON.lireJSONCocktail("src\\\\com\\\\cytech\\\\collections\\\\cocktail.json");
 		//printMap.forEach((key,value) -> System.out.println(key + value));
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
@@ -91,12 +91,12 @@ public class GestionJSONTest {
 		    //System.out.println(entry.getValue());
 		    System.out.println(nom);
 		    //System.out.println(entry.getValue());
-		    for (Entry<BoissonSimple, Integer> entry2 : entry.getValue().getListeBoissonSimple().entrySet()) {
+		    for (Entry<String, Integer> entry2 : entry.getValue().getListeBoissonSimple().entrySet()) {
 		    	System.out.println(entry2.getValue());
 		    }
 		    if (entry.getValue().getListeIngredientBonus()!=null) {
-			    for (Entry<IngredientBonus, Integer> entry3 : entry.getValue().getListeIngredientBonus().entrySet()) {
-			    	System.out.println(entry3.getKey().getNom());
+			    for (Entry<String, Integer> entry3 : entry.getValue().getListeIngredientBonus().entrySet()) {
+			    	System.out.println(entry3.getKey());
 			    }
 		    }
 		    

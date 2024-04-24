@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.cytech.application.CommandeMenuController">
+   <children>
+      <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#retourCommande" text="&lt;-" />
+      <AnchorPane layoutY="279.0" prefHeight="121.0" prefWidth="601.0">
+         <children>
+            <Label layoutX="27.0" layoutY="14.0" text="Panier :" />
+            <Label fx:id="prixTotal" layoutX="14.0" layoutY="72.0" prefHeight="34.0" prefWidth="55.0" textAlignment="CENTER" wrapText="true" />
+            <TableView fx:id="panierTable" layoutX="87.0" prefHeight="119.0" prefWidth="514.0">
+               <columns>
+                  <TableColumn fx:id="nom" prefWidth="119.0" text="Nom" />
+                  <TableColumn fx:id="type" prefWidth="73.0" text="Type" />
+                  <TableColumn fx:id="quantite" prefWidth="72.0" text="Quantité" />
+                  <TableColumn fx:id="prix" prefWidth="66.0" text="Prix" />
+                  <TableColumn fx:id="degreAlcool" prefWidth="88.0" text="Degré Alcool" />
+                  <TableColumn fx:id="degreSucre" prefWidth="95.0" text="Degré Sucre" />
+               </columns>
+            </TableView>
+            <Button layoutX="20.0" layoutY="35.0" mnemonicParsing="false" onAction="#removeFromCart" text="Retirer" />
+         </children>
+      </AnchorPane>
+      <TableView fx:id="cocktailTable" layoutX="84.0" prefHeight="255.0" prefWidth="514.0">
+        <columns>
+          <TableColumn fx:id="cocktailTableNom" prefWidth="122.0" text="Nom" />
+          <TableColumn fx:id="cocktailTablePrix" prefWidth="68.0" text="Prix" />
+            <TableColumn fx:id="cocktailTableAlcool" prefWidth="124.0" text="Degré Alcool" />
+            <TableColumn fx:id="cocktailTableSucre" prefWidth="115.0" text="Degré Sucre" />
+            <TableColumn fx:id="cocktailTableStock" prefWidth="84.0" text="En stock" />
+        </columns>
+      </TableView>
+      <Button layoutX="17.0" layoutY="92.0" mnemonicParsing="false" onAction="#addCocktailtoCart" text="Ajouter" />
+      <TextField fx:id="boissonQuantite" layoutX="10.0" layoutY="60.0" prefHeight="25.0" prefWidth="67.0" promptText="Quantité :" />
+   </children>
+</AnchorPane>
